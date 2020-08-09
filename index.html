@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="description" content="WebRTC code samples">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta itemprop="description" content="Client-side WebRTC code samples">
+    <meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
+    <meta itemprop="name" content="WebRTC code samples">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta id="theme-color" name="theme-color" content="#ffffff">
+
+    <base target="_blank">
+
+    <title>getDisplayMedia Research</title>
+
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <style>
+        textarea{
+            width:100%;
+            height:225px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="container">
+    <div>
+        <button id="getMedia" onclick="getMedia()">Get media</button>
+        <button id="connect" disabled onclick="createPeerConnection()">Connect</button>
+        <button id="addNewP2p" onclick="addNewP2pConnection()">add new P2P</button>
+        <button id="hangup" disabled onclick="hangup()">Hang Up</button>
+    </div>
+
+    <hr>
+    <section id="video">
+        <h2>P2P demo</h2>
+        <div id="localVideo">
+            <video playsinline autoplay muted controls></video>
+            <div></div>
+            <div id="localVideo_bitrate"></div>
+            <div id="encoderImplementation"></div>
+            <div id="localVideo_peer"></div>
+        </div>
+        <div id="remoteVideo">
+            <video playsinline autoplay muted controls></video>
+            <div></div>
+            <div id="decoderImplementation"></div>
+            <div id="bitrate"></div>
+        </div>
+    </section>
+
+    <!-- new p2p demo -->
+    <section id="video">
+        <h2>New p2p demo</h2>
+        <div>
+            <video playsinline autoplay muted controls id="p2p_localVideo"></video>
+            <div id="p2pLocalVideoStats"></div>
+            <div id="lp2p_bitrate"></div>
+            <div id="p2p_encoderImplementation"></div>
+            <div id="p2p_local_bitrate"></div>
+        </div>
+        <div>
+            <video playsinline autoplay muted controls id="p2p_remoteVideo"></video>
+            <div id="p2pRemoteVideoStats"></div>
+            <div id="p2p_decoderImplementation"></div>
+            <div id="p2p_remote_bitrate"></div>
+        </div>
+    </section>
+</div>
+
+<script src="js/sdp_tools.js"></script>
+
+<script src="js/adapter-latest.js"></script>
+<script src="js/ga.js"></script>
+<script src="index.js"></script>
+<script src="newP2p.js"></script>
+</body>
+</html>
