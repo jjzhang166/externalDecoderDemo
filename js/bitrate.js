@@ -92,10 +92,30 @@ function setMediaBitrateAndCodecPriority(sdp, media,TIASBitrate, CodecName) {
             }
         }
     }
-
+    newLinesForBitrate = trimH264Codec(newLinesForBitrate)
     return newLinesForBitrate.join("\n");
 }
 
 function setMediaBitrateAndCodecPrioritys(sdp, CodecName) {
     return setMediaBitrateAndCodecPriority(sdp, "video", 1024000, CodecName)
+}
+
+/**
+ * 处理H264编码
+ */
+function trimH264Codec(lines) {
+    var levelIdReplacement = 'profile-level-id=42e0';
+    var modeReplacement = 'packetization-mode=1';
+
+    for(var i = 0; i<lines.length; i++){
+        if(lines[i].indexOf('profile-level-id=') >= 0){
+            lines[i] = lines[i].replace(/profile-level-id=([a-zA-Z0-9]{4})/, levelIdReplacement);
+        }
+
+        if(lines[i].indexOf('packetization-mode=' >= 0)){
+            lines[i] = lines[i].replace(/packetization-mode=([a-zA-Z0-9]{1})/, modeReplacement);
+        }
+    }
+
+    return lines
 }

@@ -215,6 +215,7 @@ function P2PStatistics() {
  */
 function showLocalStats(results) {
     results.forEach(function(report) {
+        console.warn(report)
         if (report.type === 'outbound-rtp' && report.mediaType === 'video') {
             // debugger
             if(report.encoderImplementation){

@@ -19,8 +19,13 @@ var p2p_remote_bytesReceived = document.getElementById('p2p_remote_bytesReceived
  * 创建新的P2P 链接
  */
 function addNewP2pConnection() {
-    console.warn("addNewP2pConnection stream： ", localStream)
-    var stream = remotePeerConnection.getRemoteStreams()[0]
+    var stream
+    if(remotePeerConnection.getRemoteStreams){
+        stream = remotePeerConnection.getRemoteStreams()[0]
+    }
+
+    stream = stream || targetPresentStream
+
     if(!stream){
         alert('remote present 不存在！！')
         return
