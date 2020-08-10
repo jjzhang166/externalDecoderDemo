@@ -1,14 +1,19 @@
-var addNewP2pButton = document.getElementById('addNewP2p')
+
 var p2p_localVideo = document.getElementById('p2p_localVideo')
 var p2p_remoteVideo = document.getElementById('p2p_remoteVideo')
-var p2plocalVideoStatsDiv = document.getElementById('p2pLocalVideoStats');
+var p2pLocalVideoStatsDiv = document.getElementById('p2pLocalVideoStats')
 var p2premoteVideoStatsDiv = document.getElementById('p2pRemoteVideoStats')
 var localPeer
 var remotePeer
 var P2PStatisticsInterval
+
 var p2pEcoderImplementation = document.getElementById('p2p_encoderImplementation')
 var p2pDecoderImplementation = document.getElementById('p2p_decoderImplementation')
-var p2pbitrateDiv = document.getElementById('p2p_remote_bitrate')
+var p2p_local_googCodecName = document.getElementById('p2p_local_googCodecName')
+var p2p_remote_googCodecName = document.getElementById('p2p_remote_googCodecName')
+var p2p_local_bytesSent = document.getElementById('p2p_local_bytesSent')
+var p2p_remote_bytesReceived = document.getElementById('p2p_remote_bytesReceived')
+
 
 /**
  * 创建新的P2P 链接
@@ -79,7 +84,6 @@ function addNewP2pConnection() {
     );
 
     displayP2PStatistics()
-
 }
 
 function displayP2PStatistics(){
@@ -96,9 +100,9 @@ function displayP2PStatistics(){
             // console.log('Not connected yet');
         }
         // Collect some stats from the video tags.
-        if (p2p_remoteVideo.videoWidth) {
-            localVideoStatsDiv.innerHTML = '<strong>Video dimensions:</strong> ' +
-            p2p_remoteVideo.videoWidth + 'x' + p2p_remoteVideo.videoHeight + 'px';
+        if (p2p_localVideo.videoWidth) {
+            p2pLocalVideoStatsDiv.innerHTML = '<strong>Video dimensions:</strong> ' +
+            p2p_localVideo.videoWidth + 'x' + p2p_localVideo.videoHeight + 'px';
         }
         if (p2p_remoteVideo.videoWidth) {
             p2premoteVideoStatsDiv.innerHTML = '<strong>Video dimensions:</strong> ' +
@@ -107,26 +111,38 @@ function displayP2PStatistics(){
     }, 1000);
 }
 
-function showP2PRemoteStats(results) {
-    // calculate video bitrate
-    results.forEach(function(report) {
-        if (report.type === 'inbound-rtp' && report.mediaType === 'video') {
-            if(report.decoderImplementation){
-                // console.warn("decoderImplementation： ", report.decoderImplementation)
-                p2pDecoderImplementation.innerHTML =  '<strong>解码器:</strong> ' + report.decoderImplementation;
-            }
-        }
-    });
-}
-
+/**
+ * 发送端
+ * @param results
+ */
 function showP2PLocalStats(results) {
-    // senderStatsDiv.innerHTML = '<h2>Sender stats</h2>' + statsString;
     results.forEach(function(report) {
         if (report.type === 'outbound-rtp' && report.mediaType === 'video') {
             // debugger
             if(report.encoderImplementation){
                 // console.warn("decoderImplementation： ", report.decoderImplementation)
-                p2pEcoderImplementation.innerHTML =  '<strong>编码器:</strong> ' + report.encoderImplementation;
+                p2pEcoderImplementation.innerHTML =  '<strong>codecImplementationName:</strong> ' + report.encoderImplementation;
+            }
+            if(report.bytesSent){
+                p2p_local_bytesSent.innerHTML = '<strong>bytesSent:</strong> ' + report.bytesSent;
+            }
+        }
+    });
+}
+
+/**
+ * 接收端
+ * @param results
+ */
+function showP2PRemoteStats(results) {
+    results.forEach(function(report) {
+        if (report.type === 'inbound-rtp' && report.mediaType === 'video') {
+            if(report.decoderImplementation){
+                // console.warn("decoderImplementation： ", report.decoderImplementation)
+                p2pDecoderImplementation.innerHTML =  '<strong>codecImplementationName:</strong> ' + report.decoderImplementation;
+            }
+            if(report.bytesReceived){
+                p2p_remote_bytesReceived.innerHTML = '<strong>bytesReceived:</strong> ' + report.bytesReceived;
             }
         }
     });
