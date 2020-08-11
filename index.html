@@ -13,6 +13,10 @@
             width:100%;
             height:225px;
         }
+        .inputArea input{
+            margin: 10px 0;
+            height: 20px;
+        }
     </style>
 </head>
 
@@ -25,10 +29,15 @@
         <button id="addNewP2p" onclick="addNewP2pConnection()">add new P2P</button>
         <button id="hangup" disabled onclick="hangup()">Hang Up</button>
     </div>
-
     <hr>
+    <div class="inputArea">
+        <label>设置 profile_idc： <input type="text" value="42" id="profileIdc"></label> <br>
+        <label>设置 profile_iop： <input type="text" value="e0" id="profileIop"></label> <br>
+        <label>packetization-mode:<input type="text" value="1" id="packetizationMode"></label> <br>
+    </div>
+
     <section id="video">
-        <h2>P2P demo</h2>
+        <h2>P2P</h2>
         <div id="localVideo">
             <video playsinline autoplay muted controls></video>
             <div></div>
@@ -50,7 +59,7 @@
     <hr>
     <!-- new p2p demo -->
     <section id="video">
-        <h2>New p2p demo</h2>
+        <h2>New p2p</h2>
         <div>
             <video playsinline autoplay muted controls id="p2p_localVideo"></video>
             <div id="p2pLocalVideoStats"></div>

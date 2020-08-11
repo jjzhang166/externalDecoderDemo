@@ -100,20 +100,27 @@ function setMediaBitrateAndCodecPrioritys(sdp, CodecName) {
     return setMediaBitrateAndCodecPriority(sdp, "video", 1024000, CodecName)
 }
 
+var profileIdc = document.getElementById('profileIdc').value;
+var profileIop = document.getElementById('profileIop').value;
+var packetizationMode = document.getElementById('packetizationMode').value;
 /**
  * 处理H264编码
  */
 function trimH264Codec(lines) {
-    var levelIdReplacement = 'profile-level-id=42e0';
-    var modeReplacement = 'packetization-mode=1';
+    if(profileIdc && profileIop && packetizationMode){
+        var levelIdReplacement = 'profile-level-id=' + profileIdc + profileIop;
+        var modeReplacement = 'packetization-mode=' + packetizationMode;
+        console.warn("levelIdReplacement: ", levelIdReplacement)
+        console.warn("modeReplacement： ", modeReplacement)
 
-    for(var i = 0; i<lines.length; i++){
-        if(lines[i].indexOf('profile-level-id=') >= 0){
-            lines[i] = lines[i].replace(/profile-level-id=([a-zA-Z0-9]{4})/, levelIdReplacement);
-        }
+        for(var i = 0; i<lines.length; i++){
+            if(lines[i].indexOf('profile-level-id=') >= 0){
+                lines[i] = lines[i].replace(/profile-level-id=([a-zA-Z0-9]{4})/, levelIdReplacement);
+            }
 
-        if(lines[i].indexOf('packetization-mode=' >= 0)){
-            lines[i] = lines[i].replace(/packetization-mode=([a-zA-Z0-9]{1})/, modeReplacement);
+            if(lines[i].indexOf('packetization-mode=' >= 0)){
+                lines[i] = lines[i].replace(/packetization-mode=([a-zA-Z0-9]{1})/, modeReplacement);
+            }
         }
     }
 
