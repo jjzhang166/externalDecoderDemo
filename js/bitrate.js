@@ -19,7 +19,7 @@ function setMediaBitrateAndCodecPriority(sdp, media,TIASBitrate, CodecName) {
     var serverUsedCode = [];
     var count = 0;
     var ASBitrate = (TIASBitrate / 1000) + 192
-    CodecName = CodecName || 'H264'
+    CodecName = CodecName || 'VP8'
 
     for(var i = 0; i < lines.length; i++){
         if(lines[i].indexOf("m="+media) >= 0) {
@@ -97,7 +97,7 @@ function setMediaBitrateAndCodecPriority(sdp, media,TIASBitrate, CodecName) {
 }
 
 function setMediaBitrateAndCodecPrioritys(sdp, CodecName) {
-    return setMediaBitrateAndCodecPriority(sdp, "video", 1024000, CodecName)
+    return setMediaBitrateAndCodecPriority(sdp, "video", 1024000)
 }
 
 var profileIdc = document.getElementById('profileIdc').value;
@@ -126,3 +126,27 @@ function trimH264Codec(lines) {
 
     return lines
 }
+
+/**
+ * 设置上行编码码率参数
+ */
+function setEncodingParameters(pc) {
+    var sender = pc.getSenders()[0]
+    var videoParameters = sender.getParameters();
+    if (JSON.stringify(videoParameters) === '{}') {
+        videoParameters.encodings = []
+        videoParameters.encodings[0] = {}
+    }
+
+    videoParameters.encodings[0].maxBitrate = 512000
+    videoParameters.degradationPreference = 'maintain-resolution';
+
+    console.info("set encoding maxBitrate: " +  videoParameters.encodings[0].maxBitrate)
+    console.info("set encoding degradationPreference: " +  videoParameters.degradationPreference)
+    sender.setParameters(videoParameters).then(function () {
+    }).catch(function (error) {
+        console.info('set encoding parameters error')
+        console.error(error)
+    })
+}
+

@@ -159,6 +159,8 @@ function createPeerConnection() {
             console.log('localPeerConnection offering');
             localPeerConnection.setLocalDescription(desc);
 
+            setEncodingParameters(localPeerConnection)
+
             desc.sdp = setMediaBitrateAndCodecPrioritys(desc.sdp);
             console.log(`Offer from pc1 ${desc.sdp}`);
             remotePeerConnection.setRemoteDescription(desc);
