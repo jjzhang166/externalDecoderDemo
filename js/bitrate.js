@@ -140,9 +140,10 @@ function setEncodingParameters(pc) {
 
     videoParameters.encodings[0].maxBitrate = 512000
     videoParameters.degradationPreference = 'maintain-resolution';
+    // videoParameters.encodings[0].scaleResolutionDownBy = 2
 
-    console.info("set encoding maxBitrate: " +  videoParameters.encodings[0].maxBitrate)
-    console.info("set encoding degradationPreference: " +  videoParameters.degradationPreference)
+    // console.info("set encoding maxBitrate: " +  videoParameters.encodings[0].maxBitrate)
+    console.info("set encoding degradationPreference: " +  JSON.stringify(videoParameters, null, '   '))
     sender.setParameters(videoParameters).then(function () {
     }).catch(function (error) {
         console.info('set encoding parameters error')
