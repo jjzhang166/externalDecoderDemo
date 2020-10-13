@@ -24,10 +24,11 @@
 
 <div id="container">
     <div>
-        <button id="getMedia" onclick="getMedia()">Get media</button>
-        <button id="connect" disabled onclick="createPeerConnection()">Connect</button>
-        <button id="addNewP2p" onclick="addNewP2pConnection()">add new P2P</button>
-        <button id="hangup" disabled onclick="hangup()">Hang Up</button>
+        <button id="getMedia" onclick="getDisplayMediaStream()">桌面共享</button>
+        <button id="gumFromCamera" onclick="getUserMediaStream()">共享摄像头</button>
+        <button id="connect" disabled onclick="createPeerConnection()">建立连接</button>
+        <button id="addNewP2p" onclick="addNewP2pConnection()">添加新的P2P连接</button>
+        <button id="hangup" disabled onclick="hangup()">挂断</button>
     </div>
     <hr>
     <div class="inputArea">

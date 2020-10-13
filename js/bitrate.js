@@ -19,7 +19,7 @@ function setMediaBitrateAndCodecPriority(sdp, media,TIASBitrate, CodecName) {
     var serverUsedCode = [];
     var count = 0;
     var ASBitrate = (TIASBitrate / 1000) + 192
-    CodecName = CodecName || 'VP8'
+    CodecName = 'H264'
 
     for(var i = 0; i < lines.length; i++){
         if(lines[i].indexOf("m="+media) >= 0) {
@@ -97,7 +97,7 @@ function setMediaBitrateAndCodecPriority(sdp, media,TIASBitrate, CodecName) {
 }
 
 function setMediaBitrateAndCodecPrioritys(sdp, CodecName) {
-    return setMediaBitrateAndCodecPriority(sdp, "video", 1024000)
+    return setMediaBitrateAndCodecPriority(sdp, "video", 8000000)
 }
 
 var profileIdc = document.getElementById('profileIdc').value;
@@ -116,6 +116,7 @@ function trimH264Codec(lines) {
         for(var i = 0; i<lines.length; i++){
             if(lines[i].indexOf('profile-level-id=') >= 0){
                 lines[i] = lines[i].replace(/profile-level-id=([a-zA-Z0-9]{4})/, levelIdReplacement);
+                // lines[i] = lines[i] + ';max-mbps=40800;max-fs=8160;x-google-start-bitrate=2000;x-google-min-bitrate=100;x-google-max-bitrate=8000'
             }
 
             if(lines[i].indexOf('packetization-mode=' >= 0)){
@@ -138,8 +139,9 @@ function setEncodingParameters(pc) {
         videoParameters.encodings[0] = {}
     }
 
-    videoParameters.encodings[0].maxBitrate = 512000
-    videoParameters.degradationPreference = 'maintain-resolution';
+    videoParameters.encodings[0].maxBitrate = 1500000
+    videoParameters.degradationPreference = 'maintain-framerate';
+    // videoParameters.degradationPreference = 'maintain-resolution';
     // videoParameters.encodings[0].scaleResolutionDownBy = 2
 
     // console.info("set encoding maxBitrate: " +  videoParameters.encodings[0].maxBitrate)

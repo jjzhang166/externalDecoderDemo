@@ -23,13 +23,30 @@ var constraints ={
     video: {
         width: { max: '1920' },
         height: { max: '1080' },
-        frameRate: { max: '5' }
+        frameRate: { max: '15' },
+        // frameRate: { max: '5' }
     }
 };
 var targetPresentStream = null;
 
+function getUserMediaStream(){
+    navigator.getUserMedia({
+        audio: false,
+        video: {
+            width: 1920,
+            height: 1080,
+            frameRate: 15
+        }
+    }, function (stream) {
+        gotStream(stream)
+    }, function (error) {
+        console.error(error)
+        console.warn("error.name : ", error.name);
+        console.warn("error.message : ", error.message)
+    })
+}
 
-function getMedia() {
+function getDisplayMediaStream() {
     console.warn('GetUserMedia start!');
     getMediaButton.disabled = true;
     if (localStream) {
@@ -122,9 +139,15 @@ function createPeerConnection() {
     console.log(localStream);
     connectButton.disabled = true;
     hangupButton.disabled = false;
+    // var RTCpeerConnectionOptional = { optional: [
+    //     { 'pcName': "PC_slides_" + Math.random().toString(36).substr(2) },
+    //     { 'googDscp': true },
+    //     { 'googIPv6': false },
+    //     { "googCpuOveruseDetection": false}
+    // ]};
 
-    localPeerConnection = new RTCPeerConnection(null);
-    remotePeerConnection = new RTCPeerConnection(null);
+    localPeerConnection = new RTCPeerConnection();
+    remotePeerConnection = new RTCPeerConnection();
     localStream.getTracks().forEach(function(track) {
             console.log("localPeerConnection addTack!");
             localPeerConnection.addTrack(track, localStream);
