@@ -139,13 +139,6 @@ function createPeerConnection() {
     console.log(localStream);
     connectButton.disabled = true;
     hangupButton.disabled = false;
-    // var RTCpeerConnectionOptional = { optional: [
-    //     { 'pcName': "PC_slides_" + Math.random().toString(36).substr(2) },
-    //     { 'googDscp': true },
-    //     { 'googIPv6': false },
-    //     { "googCpuOveruseDetection": false}
-    // ]};
-
     localPeerConnection = new RTCPeerConnection();
     remotePeerConnection = new RTCPeerConnection();
     localStream.getTracks().forEach(function(track) {
@@ -207,6 +200,9 @@ function createPeerConnection() {
     P2PStatistics()
 }
 
+var prevTimestamp;
+var prevBytes;
+var prevFramesEncoded;
 function P2PStatistics() {
     // Display statistics
     statisticsInterval = setInterval(function() {
@@ -250,6 +246,33 @@ function showLocalStats(results) {
                 local_bytesSent.innerHTML = '<strong>bytesSent:</strong> ' + report.bytesSent;
             }
         }
+
+
+        var bitrate;
+        var frame
+        var now = report
+        if (now.type === "outbound-rtp" || now.type === "outboundrtp") {
+            var bytes = now.bytesSent;
+            if (prevTimestamp) {
+                bitrate = 8 * (bytes - prevBytes) / (now.timestamp - prevTimestamp);
+                bitrate = Math.floor(bitrate);
+                frame = now.framesEncoded - prevFramesEncoded
+            }
+            prevBytes = bytes;
+            prevTimestamp = now.timestamp;
+            prevFramesEncoded = now.framesEncoded
+            var timestamp4 = new Date(now.timestamp);
+            console.warn("timestamp: " + timestamp4)
+            console.info("current framesEncoded: " + now.framesEncoded)
+        }
+        if (bitrate) {
+            bitrate += ' kbits/_sec';
+            console.info("current bitrate: " + bitrate)
+        }
+        if (frame) {
+            console.info("current frame: " +  frame)
+        }
+        console.info( 'remoteVideo 分辨率 ' + remoteVideo.videoWidth + ' x ' + remoteVideo.videoHeight + ' px ')
     });
 }
 

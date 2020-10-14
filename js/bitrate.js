@@ -140,6 +140,7 @@ function setEncodingParameters(pc) {
     }
 
     videoParameters.encodings[0].maxBitrate = 1500000
+    // videoParameters.encodings[0].degradationPreference = 'maintain-framerate';   // for firefox
     videoParameters.degradationPreference = 'maintain-framerate';
     // videoParameters.degradationPreference = 'maintain-resolution';
     // videoParameters.encodings[0].scaleResolutionDownBy = 2
