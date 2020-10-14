@@ -116,7 +116,7 @@ function trimH264Codec(lines) {
         for(var i = 0; i<lines.length; i++){
             if(lines[i].indexOf('profile-level-id=') >= 0){
                 lines[i] = lines[i].replace(/profile-level-id=([a-zA-Z0-9]{4})/, levelIdReplacement);
-                // lines[i] = lines[i] + ';max-mbps=40800;max-fs=8160;x-google-start-bitrate=2000;x-google-min-bitrate=100;x-google-max-bitrate=8000'
+                lines[i] = lines[i] + ';max-mbps=40800;max-fs=8160;x-google-start-bitrate=2000;x-google-min-bitrate=100;x-google-max-bitrate=8000'
             }
 
             if(lines[i].indexOf('packetization-mode=' >= 0)){
